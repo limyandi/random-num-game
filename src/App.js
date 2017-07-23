@@ -28,18 +28,19 @@ class App extends Component {
         const firstNum = enteredFirstNum;
         const lastNum = enteredLastNum;
         if (lastNum > firstNum) {
-            this.setState({
-                firstNum: firstNum,
-                lastNum: lastNum,
-                rand: Math.floor(Math.random() * (lastNum - firstNum + 1) + firstNum),
-                askNumberScreen: false,
-                gameScreen: true,
-            });
+            if((lastNum - firstNum) > minimumRange) {
+                this.setState({
+                    firstNum: firstNum,
+                    lastNum: lastNum,
+                    rand: Math.floor(Math.random() * (lastNum - firstNum + 1) + firstNum),
+                    askNumberScreen: false,
+                    gameScreen: true,
+                });
+            }
+            else {
+                alert('Please enter a bigger range than ' + minimumRange);
+            }
         }
-        else if(lastNum - firstNum < minimumRange) {
-            alert('Please enter a bigger range than ' + minimumRange);
-        }
-
         else {
             alert('Please enter the larger number in ' +
                 'the second box and the smaller number in the first box');

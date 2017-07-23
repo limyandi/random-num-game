@@ -14,11 +14,6 @@ const styles = {
     width: '10%',
 }
 
-window.onload = function() {
-    document.getElementById("number1").focus();
-};
-
-
 export class AskNumber extends Component {
     constructor() {
         super();
@@ -30,7 +25,7 @@ export class AskNumber extends Component {
         this.props.onClick(firstNum, secondNum);
     }
 
-    handleEnterForFirstText(event) {
+    handleEnterForFirstText(event) { //TODO: Bikin jadi global function soalnya dipakai dimana2
         event = event || window.event;
         if(event.keyCode || event.which === 13) {
             document.getElementById("number2").focus();
@@ -54,7 +49,7 @@ export class AskNumber extends Component {
                 <text>Please enter the range of number you want to play with!
                 </text>
                 <br />
-                <TextField className="divider" id="number1" ref="firstnum" style={styles} onKeyPress={this.handleEnterForFirstText}></TextField><br/>
+                <TextField autoFocus className="divider" id="number1" ref="firstnum" style={styles} onKeyPress={this.handleEnterForFirstText}></TextField><br/>
                 <TextField className="divider" id="number2" ref="secondnum" style={styles} onKeyPress={this.handleEnter}></TextField><br/>
                 <RaisedButton id="continueButton" className="separator" label="Continue" onClick={this.handleValue}/>
             </div>
@@ -70,7 +65,7 @@ export class Game extends Component {
 
     handleCondition() {
         const numberEntered = document.getElementById("numberentered");
-        const enteredNumber = parseInt(this.refs.enteredNum.getValue(), 10); //10 is the radix, 10 means using decimal system, 2 means using binary, 16 means hexadecimal blahblahblah.
+        const enteredNumber = parseInt(this.refs.enteredNum.getValue(), 10); //10 is the radix, 10 means using decimal system, 2 means using binary, 16 means hexadecimal.lah.
         this.props.onClick(enteredNumber);
         numberEntered.select();
     }
@@ -91,7 +86,7 @@ export class Game extends Component {
                     Please enter a number between {this.props.firstNum} and {this.props.lastNum} exclusively
                 </text>
                 <br/>
-                <TextField className="divider" id="numberentered" ref="enteredNum" onKeyPress={this.handleEnter} style={styles}/><br />
+                <TextField autoFocus className="divider" id="numberentered" ref="enteredNum" onKeyPress={this.handleEnter} style={styles}/><br />
                 <RaisedButton className="separator" id="submitButton" label="Submit" onClick={this.handleCondition}/>
             </div>
         );
@@ -102,7 +97,9 @@ export function GameEnd(props) {
     return (
         <div className="view">
             <p>The Game has Ended! Restart the game?</p>
-            <RaisedButton className="separator" onClick={props.onClick}>Restart</RaisedButton>
+            <RaisedButton label="Restart" className="separator" onClick={props.onClick}
+                          onKeyPress={(event) => {if(event.keyCode || event.which === 13) {this.click();} //TODO: Arrow Function not working, expecting after I press enter it would click the button.
+            }} />
         </div>
     );
 }
